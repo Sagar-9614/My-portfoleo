@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sagar Paul - Portfolio v2.0 | Future DMLT Professional</title>
+    
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --sidebar-width: 280px;
+            --primary-emerald: #10b981;
+            --primary-emerald-dark: #059669;
+            --accent-teal: #14b8a6;
+            --text-dark: #1f2937;
+            --text-medium: #374151;
+            --text-light: #6b7280;
+            --bg-light: #f9fafb;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .dark {
+            --text-dark: #f9fafb;
+            --text-medium: #e5e7eb;
+            --text-light: #d1d5db;
+            --bg-light: #1f2937;
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            color: var(--text-dark);
+        }
+
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .sidebar-hidden {
+            transform: translateX(-100%);
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        .main-content-expanded {
+            margin-left: 0;
+        }
+
+        .nav-link {
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            color: var(--text-medium) !important;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--primary-emerald) !important;
+        }
+
+        .nav-link.active {
+            background-color: var(--primary-emerald);
+            color: white !important;
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%);
+            position: relative;
+        }
+
+        .hero-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        .hero-gradient > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .section-padding {
+            padding: 4rem 2rem;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 6px solid white;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .skill-badge {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #14532d;
+            font-weight: 600;
+        }
+
+        .dark .skill-badge {
+            background: #064e3b;
+            border: 1px solid #047857;
+            color: #a7f3d0;
+        }
+
+        .experience-timeline {
+            border-left: 3px solid var(--primary-emerald);
+            position: relative;
+        }
+
+        .experience-timeline::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            width: 14px;
+            height: 14px;
+            background-color: var(--primary-emerald);
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px white;
+        }
+
+        .floating-action {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .theme-toggle {
+            background: var(--text-dark);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* Enhanced text contrast */
+        .text-contrast-high {
+            color: var(--text-dark) !important;
+            font-weight: 600;
+        }
+
+        .text-contrast-medium {
+            color: var(--text-medium) !important;
+            font-weight: 500;
+        }
+
+        .text-contrast-light {
+            color: var(--text-light) !important;
+        }
+
+        /* Ensure white text on dark backgrounds */
+        .bg-emerald-600 .text-white,
+        .hero-gradient .text-white,
+        .bg-gradient-to-r .text-white {
+            color: #ffffff !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Contact cards with better contrast */
+        .contact-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        .contact-card > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                z-index: 1000;
+                height: 100vh;
+                background: white;
+                box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            }
+
+            .dark .sidebar {
+                background: #111827;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 1001;
+                background: var(--primary-emerald);
+                color: white;
+                border: none;
+                padding: 12px;
+                border-radius: 8px;
+                box-shadow: var(--card-shadow);
+            }
+
+            .section-padding {
+                padding: 3rem 1rem;
+            }
+
+            .profile-image {
+                width: 150px;
+                height: 150px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .section-padding {
+                padding: 2rem 1rem;
+            }
+
+            .profile-image {
+                width: 120px;
+                height: 120px;
+            }
+        }
+
+        /* Dark theme enhancements */
+        .dark {
+            background-color: #1f2937;
+            color: #f9fafb;
+        }
+
+        .dark .sidebar {
+            background-color: #111827;
+            border-right: 1px solid #374151;
+        }
+
+        .dark .nav-link {
+            color: #d1d5db !important;
+        }
+
+        .dark .nav-link:hover {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: #10b981 !important;
+        }
+
+        .dark .bg-white {
+            background-color: #374151 !important;
+        }
+
+        .dark .bg-gray-50 {
+            background-color: #1f2937 !important;
+        }
+
+        .dark .bg-gray-800 {
+            background-color: #111827 !important;
+        }
+
+        .dark .text-gray-800 {
+            color: #f9fafb !important;
+        }
+
+        .dark .text-gray-700 {
+            color: #e5e7eb !important;
+        }
+
+        .dark .text-gray-600 {
+            color: #d1d5db !important;
+        }
+
+        .dark .border-gray-200 {
+            border-color: #374151 !important;
+        }
+
+        /* Improved readability for all text elements */
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--text-dark) !important;
+            font-weight: 700;
+        }
+
+        p {
+            color: var(--text-medium) !important;
+            line-height: 1.7;
+        }
+
+        .text-emerald-600 {
+            color: #059669 !important;
+            font-weight: 600;
+        }
+
+        .dark .text-emerald-600 {
+            color: #34d399 !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Mobile Menu Button -->
+    <button id="mobileMenuBtn" class="mobile-menu-btn">
+        <i class="fas fa-bars text-lg"></i>
+    </button>
+
+    <!-- Overlay for mobile -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- Sidebar Navigation -->
+    <nav id="sidebar" class="sidebar fixed top-0 left-0 h-full bg-white border-r border-gray-200 z-1000 overflow-y-auto">
+        <div class="p-6">
+            <!-- Profile Section -->
+            <div class="text-center mb-8">
+                <div class="relative inline-block">
+                    <img src="back.jpg" alt="Sagar Paul" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-emerald-500 shadow-lg object-cover">
+                    <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white"></div>
+                </div>
+                <h2 class="font-display text-xl font-bold text-contrast-high mb-1">Sagar Paul</h2>
+                <p class="text-sm text-emerald-600 font-medium">Future DMLT Professional</p>
+            </div>
+
+            <!-- Navigation Links -->
+            <ul class="space-y-2">
+                <li>
+                    <a href="#hero" class="nav-link flex items-center px-4 py-3 active">
+                        <i class="fas fa-home w-5 mr-3"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#about" class="nav-link flex items-center px-4 py-3">
+                        <i class="fas fa-user w-5 mr-3"></i>
+                        <span>About Me</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#skills" class="nav-link flex items-center px-4 py-3">
+                        <i class="fas fa-cogs w-5 mr-3"></i>
+                        <span>Skills</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#experience" class="nav-link flex items-center px-4 py-3">
+                        <i class="fas fa-graduation-cap w-5 mr-3"></i>
+                        <span>Journey</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#value" class="nav-link flex items-center px-4 py-3">
+                        <i class="fas fa-star w-5 mr-3"></i>
+                        <span>My Value</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#contact" class="nav-link flex items-center px-4 py-3">
+                        <i class="fas fa-envelope w-5 mr-3"></i>
+                        <span>Contact</span>
+                    </a>
+                </li>
+                
+                <!-- More Options -->
+                <li class="pt-4 border-t border-gray-200">
+                    <p class="px-4 py-2 text-xs font-semibold text-contrast-light uppercase tracking-wider">More Options</p>
+                </li>
+                <li>
+                    <a href="#" class="nav-link flex items-center px-4 py-3" onclick="downloadCV()">
+                        <i class="fas fa-download w-5 mr-3"></i>
+                        <span>Download CV</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link flex items-center px-4 py-3" onclick="shareProfile()">
+                        <i class="fas fa-share-alt w-5 mr-3"></i>
+                        <span>Share Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#hidden-section" class="nav-link flex items-center px-4 py-3">
+                        <i class="fas fa-eye w-5 mr-3"></i>
+                        <span>Future Value</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Theme Toggle -->
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <button id="themeToggle" class="theme-toggle w-full flex items-center justify-center px-4 py-3 rounded-lg transition-colors">
+                    <i class="fas fa-moon mr-2"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="mainContent" class="main-content">
+        <!-- Hero Section -->
+        <section id="hero" class="hero-gradient min-h-screen flex items-center justify-center text-white section-padding">
+            <div class="text-center max-w-4xl mx-auto">
+                <div class="mb-8">
+                    <img src="back.jpg" alt="Sagar Paul" class="profile-image mx-auto mb-6">
+                </div>
+                
+                <div class="space-y-4">
+                    <p class="text-xl font-light text-white opacity-95">Hello, I'm</p>
+                    <h1 class="font-display text-5xl md:text-7xl font-bold mb-2 text-white">Sagar Paul</h1>
+                    <p class="text-2xl md:text-3xl font-semibold text-white mb-4">Future DMLT Professional</p>
+                    <p class="text-lg md:text-xl text-white mb-8 max-w-3xl mx-auto leading-relaxed opacity-95">
+                        Driven by a passion for precision in laboratory science and committed to excellence in future healthcare contributions. Graduating in 2026.
+                    </p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <a href="#contact" class="bg-white text-emerald-600 px-8 py-4 rounded-full font-semibold hover:bg-emerald-50 transition-all transform hover:scale-105 shadow-lg">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        Connect With Me
+                    </a>
+                    <a href="#about" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-emerald-600 transition-all">
+                        <i class="fas fa-arrow-down mr-2"></i>
+                        Learn More
+                    </a>
+                </div>
+
+                <!-- Social Links -->
+                <div class="mt-8 flex justify-center space-x-6">
+                    <a href="#" class="text-white hover:text-emerald-200 text-2xl transition-colors">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-white hover:text-emerald-200 text-2xl transition-colors">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-white hover:text-emerald-200 text-2xl transition-colors">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section-padding bg-white">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="font-display text-4xl md:text-5xl font-bold text-contrast-high mb-4">About Me</h2>
+                    <div class="w-20 h-1 bg-emerald-500 mx-auto rounded-full"></div>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6">
+                        <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-emerald-500">
+                            <p class="text-lg leading-relaxed text-contrast-medium">
+                                I am <strong class="text-emerald-600">Sagar Paul</strong>, a dedicated student pursuing a Diploma in Medical Laboratory Technology, with an anticipated graduation in 2026. My academic journey is fueled by a profound interest in the scientific principles that underpin medical diagnostics.
+                            </p>
+                        </div>
+
+                        <div class="bg-emerald-50 p-6 rounded-lg">
+                            <p class="text-lg leading-relaxed text-contrast-medium">
+                                I am diligently building my expertise in core laboratory disciplines, focusing on developing both the theoretical knowledge and practical skills necessary to excel as a DMLT professional. I embrace challenges with a problem-solving mindset and am committed to continuous learning.
+                            </p>
+                        </div>
+
+                        <div class="bg-teal-50 p-6 rounded-lg">
+                            <p class="text-lg leading-relaxed text-contrast-medium">
+                                While my primary ambition is to contribute effectively within a clinical laboratory setting, I also recognize the increasing importance of technology in healthcare and believe that innovative digital approaches can significantly enhance outcomes.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="text-center lg:text-left">
+                        <div class="inline-block bg-gradient-to-r from-emerald-500 to-teal-500 p-8 rounded-2xl shadow-xl text-white">
+                            <h3 class="font-display text-2xl font-bold mb-6 text-white">Quick Facts</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center text-white">
+                                    <i class="fas fa-calendar-alt w-6 mr-4 text-emerald-100"></i>
+                                    <span class="font-medium">Graduating: 2026</span>
+                                </div>
+                                <div class="flex items-center text-white">
+                                    <i class="fas fa-microscope w-6 mr-4 text-emerald-100"></i>
+                                    <span class="font-medium">Focus: Medical Laboratory Technology</span>
+                                </div>
+                                <div class="flex items-center text-white">
+                                    <i class="fas fa-heart w-6 mr-4 text-emerald-100"></i>
+                                    <span class="font-medium">Passion: Healthcare Excellence</span>
+                                </div>
+                                <div class="flex items-center text-white">
+                                    <i class="fas fa-laptop-code w-6 mr-4 text-emerald-100"></i>
+                                    <span class="font-medium">Interest: Digital Innovation</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section-padding bg-gray-50">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="font-display text-4xl md:text-5xl font-bold text-contrast-high mb-4">Developing Skillset</h2>
+                    <div class="w-20 h-1 bg-emerald-500 mx-auto rounded-full"></div>
+                    <p class="text-xl text-contrast-medium mt-4">Building expertise across core laboratory disciplines</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Core Laboratory Skills -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg card-hover">
+                        <div class="text-center mb-6">
+                            <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-vials text-2xl text-emerald-600"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-contrast-high">Core Laboratory Focus</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <span class="skill-badge inline-block px-3 py-1 rounded-full text-sm font-medium mr-2 mb-2">Hematology & Blood Cell Morphology</span>
+                            <span class="skill-badge inline-block px-3 py-1 rounded-full text-sm font-medium mr-2 mb-2">Clinical Biochemistry Principles</span>
+                            <span class="skill-badge inline-block px-3 py-1 rounded-full text-sm font-medium mr-2 mb-2">Microbiology & Sterilization</span>
+                            <span class="skill-badge inline-block px-3 py-1 rounded-full text-sm font-medium mr-2 mb-2">Immunology & Serology</span>
+                            <span class="skill-badge inline-block px-3 py-1 rounded-full text-sm font-medium mr-2 mb-2">Urinalysis & Sample Integrity</span>
+                        </div>
+                    </div>
+
+                    <!-- Technical Aptitude -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg card-hover">
+                        <div class="text-center mb-6">
+                            <div class="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-tools text-2xl text-teal-600"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-contrast-high">Technical Aptitude</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <span class="skill-badge inline-block px-3 py-1 rounded-full text-sm font-medium mr-2 mb-2">Microscopy & Staining</span>
+                            <span class="skill-badge inline-block px-3 py-1 rounded-full text-sm font-medium mr-2 mb-2">Laboratory Equipment</span>
+                            <span class="skill-badge inline-block px-3 py-1 rounded-full text-sm font-medium mr-2 mb-2">Sample Measurement</span>
+                            <span class="skill-badge inline-block px-3 py-1 rounded-full text-sm font-medium mr-2 mb-2">Data Documentation</span>
+                            <span class="skill-badge inline-block px-3 py-1 rounded-full text-sm font-medium mr-2 mb-2">Safety Protocols</span>
+                        </div>
+                    </div>
+
+                    <!-- Analytical Skills -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg card-hover">
+                        <div class="text-center mb-6">
+                            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-brain text-2xl text-blue-600"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-contrast-high">Analytical & Digital</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <span class="skill-badge inline-block px-3 py-1 rounded-full text-sm font-medium mr-2 mb-2">Critical Thinking</span>
+                            <span class="skill-badge inline-block px-3 py-1 rounded-full text-sm font-medium mr-2 mb-2">Data Interpretation</span>
+                            <span class="skill-badge inline-block px-3 py-1 rounded-full text-sm font-medium mr-2 mb-2">Communication Skills</span>
+                            <span class="skill-badge inline-block px-3 py-1 rounded-full text-sm font-medium mr-2 mb-2">Microsoft Office</span>
+                            <span class="skill-badge inline-block px-3 py-1 rounded-full text-sm font-medium mr-2 mb-2">Data Visualization</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience/Journey Section -->
+        <section id="experience" class="section-padding bg-white">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="font-display text-4xl md:text-5xl font-bold text-contrast-high mb-4">Academic Journey</h2>
+                    <div class="w-20 h-1 bg-emerald-500 mx-auto rounded-full"></div>
+                    <p class="text-xl text-contrast-medium mt-4">My path towards becoming a DMLT professional</p>
+                </div>
+
+                <div class="max-w-4xl mx-auto">
+                    <div class="bg-gradient-to-r from-emerald-500 to-teal-500 p-8 rounded-2xl shadow-xl text-white">
+                        <div class="experience-timeline pl-8">
+                            <h3 class="text-2xl font-bold mb-2 text-white">Diploma in Medical Laboratory Technology</h3>
+                            <p class="text-white font-medium mb-4 opacity-90">[Your College/Institute Name] | Expected Graduation: 2026</p>
+                            
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="font-semibold text-lg mb-3 text-white">Current Focus:</h4>
+                                    <ul class="space-y-2 text-white">
+                                        <li class="flex items-start">
+                                            <i class="fas fa-check-circle mr-2 mt-1 text-white opacity-80"></i>
+                                            <span class="font-medium">Comprehensive DMLT curriculum study</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <i class="fas fa-check-circle mr-2 mt-1 text-white opacity-80"></i>
+                                            <span class="font-medium">Hands-on practical lab sessions</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <i class="fas fa-check-circle mr-2 mt-1 text-white opacity-80"></i>
+                                            <span class="font-medium">Quality control understanding</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="font-semibold text-lg mb-3 text-white">Future Goals:</h4>
+                                    <ul class="space-y-2 text-white">
+                                        <li class="flex items-start">
+                                            <i class="fas fa-arrow-right mr-2 mt-1 text-white opacity-80"></i>
+                                            <span class="font-medium">Clinical rotation opportunities</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <i class="fas fa-arrow-right mr-2 mt-1 text-white opacity-80"></i>
+                                            <span class="font-medium">Real-world application experience</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <i class="fas fa-arrow-right mr-2 mt-1 text-white opacity-80"></i>
+                                            <span class="font-medium">Advanced diagnostic technologies</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Value Proposition Section -->
+        <section id="value" class="section-padding bg-gray-50">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="font-display text-4xl md:text-5xl font-bold text-contrast-high mb-4">My Value (Post-2026)</h2>
+                    <div class="w-20 h-1 bg-emerald-500 mx-auto rounded-full"></div>
+                    <p class="text-xl text-contrast-medium mt-4 max-w-3xl mx-auto">
+                        Upon completing my DMLT, I aim to be a valuable asset, bringing fresh knowledge, dedication, and a proactive approach to any laboratory team.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="bg-white p-6 rounded-xl shadow-lg card-hover text-center">
+                        <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-microscope text-2xl text-emerald-600"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-contrast-high mb-3">Solid Foundation</h4>
+                        <p class="text-contrast-medium">Equipped with comprehensive DMLT training, ready to apply theoretical understanding to practical challenges.</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-lg card-hover text-center">
+                        <div class="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-cogs text-2xl text-teal-600"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-contrast-high mb-3">Precision Focus</h4>
+                        <p class="text-contrast-medium">Committed to accuracy and meticulousness, qualities essential for reliable laboratory results.</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-lg card-hover text-center">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-user-plus text-2xl text-blue-600"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-contrast-high mb-3">Adaptable & Eager</h4>
+                        <p class="text-contrast-medium">Enthusiastic about learning new techniques and contributing positively to team goals and efficiency.</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-lg card-hover text-center">
+                        <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-heart text-2xl text-pink-600"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-contrast-high mb-3">Patient-Centric</h4>
+                        <p class="text-contrast-medium">Understanding that every sample represents a patient, driven by the desire to improve lives through accurate diagnostics.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hidden Future Value Section -->
+        <section id="hidden-section" class="section-padding bg-emerald-600 text-white">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-6 text-white">My Commitment to Future Value</h2>
+                <div class="w-20 h-1 bg-white mx-auto rounded-full mb-8"></div>
+                
+                <div class="bg-black bg-opacity-20 p-8 rounded-2xl backdrop-blur-sm">
+                    <p class="text-xl leading-relaxed mb-6 text-white">
+                        You've discovered my vision for the future! My primary focus is dedicated learning and growth in DMLT. However, I believe in being forthright about the value I aim to deliver upon graduation in 2026 and beyond.
+                    </p>
+                    
+                    <div class="bg-black bg-opacity-30 p-6 rounded-xl mb-6">
+                        <p class="text-lg text-white">
+                            My conceptual base aspiration for <strong class="text-white">2026</strong> is
+                            <strong class="text-2xl text-white">₹10,000 per month</strong>
+                        </p>
+                        <p class="text-white mt-2 opacity-90">This reflects my commitment to continuous professional development and increasing value.</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6 mt-8">
+                        <div class="bg-black bg-opacity-20 p-4 rounded-lg">
+                            <h4 class="font-semibold mb-2 text-white">Growth Mindset</h4>
+                            <p class="text-sm text-white opacity-90">Committed to annual skill enhancement and value addition</p>
+                        </div>
+                        <div class="bg-black bg-opacity-20 p-4 rounded-lg">
+                            <h4 class="font-semibold mb-2 text-white">Market Awareness</h4>
+                            <p class="text-sm text-white opacity-90">Understanding of industry standards and expectations</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="text-sm mt-6 text-white italic opacity-80">
+                    <strong>Disclaimer:</strong> This is a conceptual feature for engagement. Actual compensation will be subject to market conditions, role specifics, and mutual discussion post-graduation.
+                </p>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section-padding bg-white">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="font-display text-4xl md:text-5xl font-bold text-contrast-high mb-4">Connect with Sagar Paul</h2>
+                    <div class="w-20 h-1 bg-emerald-500 mx-auto rounded-full"></div>
+                    <p class="text-xl text-contrast-medium mt-4 max-w-3xl mx-auto">
+                        I am currently focused on my DMLT studies (graduating 2026) but am always open to connecting with professionals and learning about the field. Feel free to reach out!
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <a href="mailto:sagar.paul.example@email.com" class="contact-card bg-gradient-to-br from-red-500 to-red-600 text-white p-6 rounded-xl card-hover text-center group">
+                        <i class="fas fa-envelope text-3xl mb-4 group-hover:scale-110 transition-transform text-white"></i>
+                        <h4 class="font-semibold text-lg mb-2 text-white">Email Me</h4>
+                        <p class="text-white text-sm break-all opacity-90">sagar.paul.example@email.com</p>
+                    </a>
+
+                    <a href="https://www.facebook.com/your.sagarpaul.profile" target="_blank" class="contact-card bg-gradient-to-br from-blue-600 to-blue-700 text-white p-6 rounded-xl card-hover text-center group">
+                        <i class="fab fa-facebook-f text-3xl mb-4 group-hover:scale-110 transition-transform text-white"></i>
+                        <h4 class="font-semibold text-lg mb-2 text-white">Facebook</h4>
+                        <p class="text-white text-sm opacity-90">View My Profile</p>
+                    </a>
+
+                    <a href="https://www.instagram.com/sagarpaul_insta_example" target="_blank" class="contact-card bg-gradient-to-br from-pink-500 to-purple-600 text-white p-6 rounded-xl card-hover text-center group">
+                        <i class="fab fa-instagram text-3xl mb-4 group-hover:scale-110 transition-transform text-white"></i>
+                        <h4 class="font-semibold text-lg mb-2 text-white">Instagram</h4>
+                        <p class="text-white text-sm opacity-90">Follow My Journey</p>
+                    </a>
+
+                    <a href="tel:YOUR_PHONE_NUMBER_HERE" class="contact-card bg-gradient-to-br from-green-500 to-emerald-600 text-white p-6 rounded-xl card-hover text-center group">
+                        <i class="fas fa-phone-alt text-3xl mb-4 group-hover:scale-110 transition-transform text-white"></i>
+                        <h4 class="font-semibold text-lg mb-2 text-white">Call Me</h4>
+                        <p class="text-white text-sm opacity-90">Open Phone Dialer</p>
+                    </a>
+                </div>
+
+                <div class="mt-12 text-center">
+                    <div class="bg-gray-50 p-8 rounded-2xl">
+                        <h3 class="text-2xl font-bold text-contrast-high mb-4">Let's Connect!</h3>
+                        <p class="text-contrast-medium mb-6">Whether you're interested in mentorship, future opportunities, or just want to discuss the field of medical laboratory technology, I'd love to hear from you.</p>
+                        <div class="flex justify-center space-x-4">
+                            <div class="flex items-center text-contrast-medium">
+                                <i class="fas fa-clock mr-2 text-emerald-500"></i>
+                                <span>Available for discussions</span>
+                            </div>
+                            <div class="flex items-center text-contrast-medium">
+                                <i class="fas fa-graduation-cap mr-2 text-emerald-500"></i>
+                                <span>Graduating 2026</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white py-8">
+            <div class="max-w-6xl mx-auto px-4 text-center">
+                <div class="flex justify-center space-x-6 mb-4">
+                    <a href="#" class="text-gray-400 hover:text-emerald-400 text-xl transition-colors">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-emerald-400 text-xl transition-colors">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-emerald-400 text-xl transition-colors">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+                <p class="text-gray-300">© <span id="currentYear"></span> Sagar Paul. Future DMLT Professional. Graduating 2026.</p>
+                <p class="text-gray-400 text-sm mt-2">Designed with passion for healthcare excellence</p>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // Set current year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Mobile menu functionality
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const mainContent = document.getElementById('mainContent');
+
+        function toggleMobileMenu() {
+            sidebar.classList.toggle('sidebar-hidden');
+            overlay.classList.toggle('active');
+            
+            if (window.innerWidth <= 1024) {
+                if (sidebar.classList.contains('sidebar-hidden')) {
+                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars text-lg"></i>';
+                } else {
+                    mobileMenuBtn.innerHTML = '<i class="fas fa-times text-lg"></i>';
+                }
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+        overlay.addEventListener('click', toggleMobileMenu);
+
+        // Navigation functionality
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section');
+
+        // Smooth scrolling for navigation links
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (this.getAttribute('href').startsWith('#')) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+
+                        // Close mobile menu
+                        if (window.innerWidth <= 1024) {
+                            toggleMobileMenu();
+                        }
+
+                        // Update active nav link
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                }
+            });
+        });
+
+        // Active section highlighting on scroll
+        function updateActiveSection() {
+            let current = '';
+            const scrollPos = window.scrollY + 100;
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                
+                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveSection);
+
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        let isDark = localStorage.getItem('theme') === 'dark';
+
+        function updateTheme() {
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun mr-2"></i><span>Light Mode</span>';
+            } else {
+                document.documentElement.classList.remove('dark');
+                themeToggle.innerHTML = '<i class="fas fa-moon mr-2"></i><span>Dark Mode</span>';
+            }
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        updateTheme();
+
+        themeToggle.addEventListener('click', () => {
+            isDark = !isDark;
+            updateTheme();
+        });
+
+        // Responsive sidebar handling
+        function handleResize() {
+            if (window.innerWidth > 1024) {
+                sidebar.classList.remove('sidebar-hidden');
+                overlay.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars text-lg"></i>';
+                mainContent.classList.remove('main-content-expanded');
+            } else {
+                sidebar.classList.add('sidebar-hidden');
+                mainContent.classList.add('main-content-expanded');
+            }
+        }
+
+        window.addEventListener('resize', handleResize);
+        handleResize(); // Initial check
+
+        // Additional functions for more options
+        function downloadCV() {
+            // You can implement actual CV download functionality here
+            alert('CV download functionality - Replace with actual CV file link');
+        }
+
+        function shareProfile() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Sagar Paul - Future DMLT Professional',
+                    text: 'Check out my portfolio as a future DMLT professional',
+                    url: window.location.href
+                });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    alert('Profile link copied to clipboard!');
+                });
+            }
+        }
+
+        // Smooth entrance animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Apply animations to cards and sections
+        document.querySelectorAll('.card-hover, section > div').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Console message for developers
+        console.log(
+            "%cSagar Paul Portfolio v2.0 🚀",
+            "color: #10b981; font-size: 1.5em; font-weight: bold;"
+        );
+        console.log(
+            "Built with modern web technologies and optimized for mobile devices. Future DMLT professional with a passion for both healthcare and technology!"
+        );
+    </script>
+</body>
+</html>
